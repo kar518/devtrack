@@ -27,7 +27,7 @@ function App() {
 
   // ✅ Fetch data
   const fetchData = () => {
-    axios.get("http://localhost:8080/api/analytics", {
+    axios.get("https://devtrack-lk9v.onrender.com/api/analytics", {
       headers: {
         Authorization: localStorage.getItem("token")
       }
