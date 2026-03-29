@@ -21,12 +21,24 @@ public class AuthService {
     // LOGIN
     public String login(User user) {
 
-        User existing = repo.findByUsername(user.getUsername());
-
-        if (existing != null && existing.getPassword().equals(user.getPassword())) {
-            return "TOKEN_" + user.getUsername(); // simple token
-        }
-
-        return "Invalid username or password";
+    if (user.getUsername() == null || user.getPassword() == null) {
+        return "Invalid input";
     }
+
+    User existing = repo.findByUsername(user.getUsername());
+
+    if (existing == null) {
+        return "User not found";
+    }
+
+    if (existing.getPassword() == null) {
+        return "User data corrupted";
+    }
+
+    if (!existing.getPassword().equals(user.getPassword())) {
+        return "Invalid password";
+    }
+
+    return "TOKEN_" + existing.getUsername();
+}
 }
