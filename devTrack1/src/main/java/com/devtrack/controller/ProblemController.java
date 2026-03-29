@@ -8,7 +8,7 @@ import com.devtrack.service.ProblemService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class ProblemController {
 
     @Autowired
