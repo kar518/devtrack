@@ -3,6 +3,9 @@ import axios from "axios";
 import Chart from "chart.js/auto";
 import "./App.css";
 
+// 🔥 ADD THIS
+const API = "https://devtrack-lk9v.onrender.com";
+
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,7 +30,7 @@ function App() {
 
   // ✅ Fetch data
   const fetchData = () => {
-    axios.get("https://devtrack-lk9v.onrender.com/api/analytics", {
+    axios.get(`${API}/api/analytics`, {
       headers: {
         Authorization: localStorage.getItem("token")
       }
@@ -54,7 +57,7 @@ function App() {
     }
   }, [activeTab]);
 
-  // ✅ FIXED CHART (ONLY ONE — CLEAN)
+  // ✅ Chart
   useEffect(() => {
     if (activeTab !== "analytics") return;
     if (!stats || stats.easy === undefined) return;
@@ -93,7 +96,7 @@ function App() {
   // 🔐 LOGIN
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:8080/api/login", authForm);
+      const res = await axios.post(`${API}/api/login`, authForm);
 
       if (res.data.startsWith("TOKEN")) {
         localStorage.setItem("token", res.data);
@@ -110,7 +113,7 @@ function App() {
   // 🔐 REGISTER
   const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:8080/api/register", authForm);
+      await axios.post(`${API}/api/register`, authForm);
       alert("Registered! Now login.");
     } catch {
       alert("Error registering");
@@ -119,7 +122,7 @@ function App() {
 
   // ➕ ADD PROBLEM
   const handleSubmit = () => {
-    axios.post("http://localhost:8080/api/add", {
+    axios.post(`${API}/api/add`, {
       ...form,
       timeSpent: Number(form.timeSpent)
     }, {
@@ -173,7 +176,6 @@ function App() {
     );
   }
 
-  // 🧠 MAIN UI
   return (
     <div className="app">
 
@@ -191,7 +193,6 @@ function App() {
 
       <div className="main">
 
-        {/* ADD */}
         {activeTab === "add" && (
           <div className="card center-card">
             <h2>Add Problem</h2>
@@ -220,7 +221,6 @@ function App() {
           </div>
         )}
 
-        {/* LIST */}
         {activeTab === "list" && (
           <div className="card center-card">
             <h2>Problems</h2>
@@ -234,7 +234,6 @@ function App() {
           </div>
         )}
 
-        {/* ANALYTICS */}
         {activeTab === "analytics" && (
           <div className="dashboard-grid">
             <div className="card">
@@ -253,7 +252,6 @@ function App() {
           </div>
         )}
 
-        {/* CALENDAR */}
         {activeTab === "calendar" && (
           <div className="card center-card">
             <h2>Consistency</h2>
